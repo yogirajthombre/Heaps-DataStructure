@@ -1,3 +1,6 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 public class MaxHeap {
     public int size;
     public int current = 0;
@@ -73,4 +76,49 @@ public class MaxHeap {
             swim(lastElementParent);
         }
     }
+
+    /**
+     * Time complexity O(nLog(k))
+     * Space complexity O(kn)
+     * */
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode node = new ListNode();
+        ListNode currNode = node;
+        PriorityQueue<ListNode> queue = new PriorityQueue<>(new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode listNode, ListNode t1) {
+                return listNode.val-t1.val;
+            }
+        });
+        for (int x = 0;x<lists.length;x++){
+            ListNode arr = lists[x];
+            queue.offer(arr);
+        }
+
+        while (!queue.isEmpty()){
+            ListNode currentNode = queue.poll();
+            node.next = currentNode;
+            node = node.next;
+            if (currentNode.next != null){
+                queue.offer(currentNode.next);
+            }
+        }
+
+        return currNode.next;
+    }
+
+    public static ListNode mergeLists(ListNode node1,ListNode node2){
+        ListNode node = new ListNode();
+        ListNode currentNode = node;
+
+        return currentNode.next;
+    }
+
+    public static class ListNode {
+     int val;
+     ListNode next;
+     ListNode() {}
+        ListNode(int val) { this.val = val; }
+      ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ }
 }
